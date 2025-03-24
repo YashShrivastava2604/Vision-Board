@@ -1,0 +1,39 @@
+/* General scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px; /* Thin scrollbar */
+  }
+  
+  /* Scrollbar thumb */
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #a0a0a0; /* Scrollbar color */
+    border-radius: 10px; /* Rounded edges */
+  }
+  
+  /* Scrollbar track */
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* No background */
+    
+  }
+  
+  /* Completely remove scrollbar buttons in WebKit browsers */
+  .custom-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+  
+  /* Hide scrollbar buttons in Firefox */
+  .custom-scrollbar {
+    scrollbar-width: thin; /* Thin scrollbar in Firefox */
+    scrollbar-color: #a0a0a0 transparent; /* Thumb & track colors */
+  }
+  
+  .custom-scrollbar *::-moz-scrollbar-button {
+    display: none !important;
+    width: 0px;
+    height: 0px;
+    background: none;
+    border: none;
+  }
+  
