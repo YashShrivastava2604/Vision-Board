@@ -6,7 +6,7 @@ import { BrowserRouter,createBrowserRouter,Route,Routes,NavLink } from "react-ro
 import Navbar from "./components/Navbar";
 import Choice from "./components/Choice";
 import ViewPaste from "./components/Paste/ViewPaste";
-import { NavbarProvider } from './redex/NavbarContext';
+import { NavbarProvider } from './redux/NavbarContext';
 export default function App() {
   
   

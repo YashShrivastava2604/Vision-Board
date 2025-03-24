@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavbarContext } from '../../redex/NavbarContext';
+import { NavbarContext } from '../../redux/NavbarContext';
 import {
   addTask,
   deleteAll,
   deleteTask,
   toggleTask,
   updateTask,
-} from '../../redex/todoslice';
+} from '../../redux/todoslice';
 import { IoAdd } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { FaCheck, FaEdit } from "react-icons/fa";

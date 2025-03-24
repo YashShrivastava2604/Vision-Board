@@ -10,7 +10,7 @@ import { GrSelect } from "react-icons/gr";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import rough from "roughjs/bundled/rough.esm";
 import getStroke from "perfect-freehand";
-import { NavbarContext } from "../../redex/NavbarContext";
+import { NavbarContext } from "../../redux/NavbarContext";
 import toast from "react-hot-toast";
 import { RiRectangleLine } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa";

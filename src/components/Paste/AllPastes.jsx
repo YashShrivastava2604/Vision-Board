@@ -8,10 +8,10 @@ import { MdDelete } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { useSearchParams } from 'react-router';
-import { removeAllPastes, removePaste } from '../../redex/pasteSlice';
+import { removeAllPastes, removePaste } from '../../redux/pasteSlice';
 import { NavLink } from 'react-router';
 import toast from 'react-hot-toast';
-import { NavbarContext } from '../../redex/NavbarContext';
+import { NavbarContext } from '../../redux/NavbarContext';
 
 const AllPastes = () => {
 

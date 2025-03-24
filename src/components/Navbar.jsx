@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FiHome, FiClipboard, FiCheckSquare, FiEdit2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { NavbarContext } from '../redex/NavbarContext';
+import { NavbarContext } from '../redux/NavbarContext';
 
 const Navbar = () => {
   const { collapsed, setCollapsed } = useContext(NavbarContext);

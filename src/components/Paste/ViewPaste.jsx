@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { NavLink } from "react-router";
 import toast from "react-hot-toast";
-import { NavbarContext } from "../../redex/NavbarContext";
+import { NavbarContext } from "../../redux/NavbarContext";
 
 const ViewPaste = () => {
     const { id } = useParams();

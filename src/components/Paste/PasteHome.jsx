@@ -4,8 +4,8 @@ import { CiCirclePlus } from "react-icons/ci";
 import AllPastes from "./AllPastes";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
-import { addToPaste, updatePaste } from "../../redex/pasteSlice";
-import { NavbarContext } from "../../redex/NavbarContext";
+import { addToPaste, updatePaste } from "../../redux/pasteSlice";
+import { NavbarContext } from "../../redux/NavbarContext";
 import toast from "react-hot-toast";
 import './PasteHome.css'
 
