@@ -64,7 +64,6 @@ const PasteHome = () => {
         }
       ),
       format: format,
-      privacy: privacy,
     };
 
     if (pasteId) {
