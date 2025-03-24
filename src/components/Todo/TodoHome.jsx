@@ -8,7 +8,7 @@ import {
   deleteTask,
   toggleTask,
   updateTask,
-} from '../../redux/todoslice';
+} from '../../redux/todoSlice';
 import { IoAdd } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { FaCheck, FaEdit } from "react-icons/fa";
