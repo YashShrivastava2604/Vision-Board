@@ -11,7 +11,7 @@ import './PasteHome.css'
 
 const PasteHome = () => {
   const [format, setformat] = useState("Code");
-  const [privacy, setPrivacy] = useState("Public");
+  // const [privacy, setPrivacy] = useState("Public");
   const [title, setTitle] = useState("");
   const [val, setVal] = useState("");
   const allPaste = useSelector((state) => state.pasteRed.allPastes);
@@ -97,13 +97,7 @@ const PasteHome = () => {
                 <option value="Text">Text</option>
               </select>
 
-              <select
-                onChange={(e) => setPrivacy(e.target.value)}
-                className="cursor-pointer bg-gray-100 border border-gray-400 rounded py-3 px-9"
-              >
-                <option value="Public">Public</option>
-                <option value="Private">Private</option>
-              </select>
+              
 
               <button
                 className="cursor-pointer bg-black text-white py-3 px-9 rounded"
