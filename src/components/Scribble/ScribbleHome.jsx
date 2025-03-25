@@ -302,7 +302,12 @@ const drawElement = (roughCanvas, context, element, scale, currentColor) => {
       context.textBaseline = "top";
       context.fillStyle = element.color || currentColor;
       context.font = "21px sans-serif";
-      context.fillText(element.text, element.x1, element.y1);
+      // Split the text into lines using newline characters
+      const lines = element.text.split("\n");
+      const lineHeight = 24; // Adjust based on your font size
+      lines.forEach((line, index) => {
+        context.fillText(line, element.x1, element.y1 + index * lineHeight);
+      });
       break;
     default:
       throw new Error(`Type not recognised: ${element.type}`);
@@ -844,7 +849,8 @@ const ScribbleHome = () => {
             outline: "none",
             zIndex: 100,
             resize: "none",
-            color: "black",
+            color: currentColor,
+            whiteSpace: "pre-wrap"
           }}
         />
       )}
