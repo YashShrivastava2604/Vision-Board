@@ -298,17 +298,19 @@ const drawElement = (roughCanvas, context, element, scale, currentColor) => {
       context.fill(new Path2D(strokePath));
       break;
     }
-    case "text":
+    case "text": {
       context.textBaseline = "top";
       context.fillStyle = element.color || currentColor;
       context.font = "21px sans-serif";
-      // Split the text into lines using newline characters
-      const lines = element.text.split("\n");
-      const lineHeight = 24; // Adjust based on your font size
+      const textContent = typeof element.text === "string" ? element.text : "";
+      const lines = textContent.split("\n");
+      const lineHeight = 24; // Adjust based on font size if needed
       lines.forEach((line, index) => {
         context.fillText(line, element.x1, element.y1 + index * lineHeight);
       });
       break;
+    }
+    
     default:
       throw new Error(`Type not recognised: ${element.type}`);
   }
@@ -347,9 +349,10 @@ const ScribbleHome = () => {
   const containerRef = useRef(null);
   const storedDrawing = localStorage.getItem("savedDrawing");
   const initialElements =
-    storedDrawing && storedDrawing !== "undefined"
-      ? JSON.parse(storedDrawing)
-      : [];
+  storedDrawing && storedDrawing !== "undefined"
+    ? JSON.parse(storedDrawing).map(el => el.type === "text" ? { ...el, text: el.text || "" } : el)
+    : [];
+
   const [elements, setElements, undo, redo] = useHistory(initialElements);
   const [action, setAction] = useState("none");
   const [tool, setTool] = useState("rectangle");
@@ -519,15 +522,27 @@ const ScribbleHome = () => {
       case "pencil":
         elementsCopy[id].points = [...elementsCopy[id].points, { x: x2, y: y2 }];
         break;
-      case "text": {
-        const textWidth = document.getElementById("canvas").getContext("2d").measureText(options.text).width;
-        const textHeight = 24;
-        elementsCopy[id] = {
-          ...createElement(id, x1, y1, x1 + textWidth, y1 + textHeight, type, { color: currentColor }),
-          text: options.text,
-        };
-        break;
-      }
+        case "text": {
+          const textValue = options.text || "";
+          const textWidth = document.getElementById("canvas")
+            .getContext("2d")
+            .measureText(textValue).width;
+          const textHeight = 24;
+          elementsCopy[id] = {
+            ...createElement(
+              id,
+              x1,
+              y1,
+              x1 + textWidth,
+              y1 + textHeight,
+              type,
+              { color: currentColor }
+            ),
+            text: textValue,
+          };
+          break;
+        }
+        
       default:
         throw new Error(`Type not recognised: ${type}`);
     }
@@ -546,6 +561,18 @@ const ScribbleHome = () => {
   const handleMouseDown = (event) => {
     if (popoverVisible) setPopoverVisible(false);
     if (action === "writing") return;
+    else if (action === "resizing") {
+      // Prevent resizing if the selected element is a text element
+      if (selectedElement.type === "text") {
+        return;
+      }
+      const { id, type, position, ...coordinates } = selectedElement;
+      const newCoords = resizedCoordinates(clientX, clientY, position, coordinates);
+      if (!newCoords) return;
+      const { x1, y1, x2, y2 } = newCoords;
+      updateElement(id, x1, y1, x2, y2, type);
+    }
+    
     const { clientX, clientY } = getMouseCoordinates(event);
     console.log("Canvas Mouse Down:", clientX, clientY);
     if (event.button === 1 || pressedKeys.has(" ")) {
@@ -560,6 +587,7 @@ const ScribbleHome = () => {
       return;
     }
     if (elements) {
+      
       if (tool === "selection") {
         const element = elements
           .map((element) => ({
@@ -568,7 +596,12 @@ const ScribbleHome = () => {
           }))
           .find((element) => element.position !== null);
         if (element) {
-          if (element.type === "pencil") {
+          if (element.type === "text") {
+            const offsetX = clientX - element.x1;
+            const offsetY = clientY - element.y1;
+            setSelectedElement({ ...element, offsetX, offsetY });
+            setAction("moving");
+          } else if (element.type === "pencil") {
             const xOffsets = element.points.map((point) => clientX - point.x);
             const yOffsets = element.points.map((point) => clientY - point.y);
             setSelectedElement({ ...element, xOffsets, yOffsets });
@@ -692,7 +725,7 @@ const ScribbleHome = () => {
     const { id, x1, y1, type } = selectedElement;
     setAction("none");
     setSelectedElement(null);
-    updateElement(id, x1, y1, null, null, type, { text: event.target.value });
+    updateElement(id, x1, y1, null, null, type, { text: event.target.value || "" });
   };
 
   const onZoom = (delta) => {
