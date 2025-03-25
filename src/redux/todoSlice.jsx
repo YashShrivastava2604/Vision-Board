@@ -62,14 +62,16 @@ const todoSlice = createSlice({
           
           
           
-        deleteTask : (state, action) => {
+          deleteTask: (state, action) => {
             const taskId = action.payload;
-            const index = state.allTasks.find((item) => item.id === taskId);
-            state.allTasks.splice(index,1);
-            localStorage.setItem("allTasks", JSON.stringify(state.allTasks))
-
-            toast.error("Task Deleted")
-        },
+            const index = state.allTasks.findIndex((item) => item.id === taskId);
+            if (index >= 0) {
+              state.allTasks.splice(index, 1);
+              localStorage.setItem("allTasks", JSON.stringify(state.allTasks));
+              toast.error("Task Deleted");
+            }
+          },
+          
         clearHistory: (state, action) => {
             state.allTasks = state.allTasks.filter((task) => !task.completed);
             localStorage.setItem("allTasks", JSON.stringify(state.allTasks));

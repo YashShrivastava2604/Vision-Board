@@ -19,7 +19,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const TodoHome = () => {
   const [title, setTitle] = useState('');
   const [delayedTasks, setDelayedTasks] = useState({}); 
-  // delayedTasks is an object { [taskId]: true } meaning “this task is in the 1-second delay to become completed.”
+ 
 
   const dispatch = useDispatch();
   const { collapsed } = useContext(NavbarContext);
@@ -63,20 +63,16 @@ const TodoHome = () => {
     setSearchParam('');
   }
 
-  /**
-   * Handle the checkbox toggle with a 1-second delay
-   * when marking a task as completed.
-   */
+
   function handleToggle(task) {
-    // If task is currently NOT completed, the user is marking it completed
+    
     if (!task.completed) {
-      // 1) Mark it as 'delayed' in local state so the checkbox appears checked
+      
       setDelayedTasks((prev) => ({ ...prev, [task.id]: true }));
 
-      // 2) Wait 1 second, then actually dispatch toggleTask to Redux
       setTimeout(() => {
         dispatch(toggleTask(task.id));
-        // Remove from local delayedTasks
+       
         setDelayedTasks((prev) => {
           const updated = { ...prev };
           delete updated[task.id];
@@ -84,24 +80,23 @@ const TodoHome = () => {
         });
       }, 1000);
     } else {
-      // If the user is unchecking a completed task, do it immediately
+      
       dispatch(toggleTask(task.id));
     }
   }
 
-  // Filter tasks that are not completed in Redux
   const uncompletedTasks = allTasks.filter((t) => !t.completed);
 
   return (
     <div className="min-h-screen w-full bg-gray-200 tracking-wide box-border">
       <div className="flex min-h-screen">
-        {/* Navbar spacer: adjusts with collapsed */}
+       
         <div
           style={{ width: collapsed ? '4rem' : '14rem' }}
           className="transition-all duration-300"
         ></div>
 
-        {/* Main content area: stack Todo and Completed in a column */}
+       
         <div className="flex-1 flex flex-col items-center py-8">
           {/* --- Todo Box --- */}
           <div className="relative h-[33rem] w-full max-w-[30rem] bg-white shadow-2xl rounded-md">
@@ -144,7 +139,7 @@ const TodoHome = () => {
                   >
                     <div className="flex justify-between items-center">
                       <div className="flex gap-3 items-center">
-                        {/* Checkbox for toggling */}
+                        
                         <input
                           type="checkbox"
                           disabled={taskId}
@@ -175,7 +170,7 @@ const TodoHome = () => {
                         </button>
                       </div>
                     </div>
-                    {/* Display creation date */}
+                    
                     <small className="text-gray-400 mt-1">{task.formatedDate}</small>
                   </motion.div>
                 ))}
@@ -200,11 +195,20 @@ const TodoHome = () => {
           </div>
           
           {/* --- Completed Box --- */}
-          {completedTasks.length > 0 && (
-            <div className="relative h-[33rem] w-full max-w-[30rem] mt-8 bg-white shadow-2xl rounded-md">
-              <Completed />
-            </div>
-          )}
+          <AnimatePresence>
+            {completedTasks.length > 0 && (
+              <motion.div 
+                key="completed-box"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 1 }}
+                className="relative h-[33rem] w-full max-w-[30rem] mt-8 bg-white shadow-2xl rounded-md"
+              >
+                <Completed />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
