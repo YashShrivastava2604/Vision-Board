@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Choice from "./components/Choice";
 import ViewPaste from "./components/Paste/ViewPaste";
 import { NavbarProvider } from './redux/NavbarContext';
+import { Analytics } from '@vercel/analytics/react';
 export default function App() {
   
   
@@ -14,33 +15,34 @@ export default function App() {
   return (
     <>
 
-    <NavbarProvider>  
-      <BrowserRouter>   
-          <Routes>
-            <Route path="/" element={<Choice/>}/>
-            <Route path="/paste" element={<div className="flex w-full">
-              <Navbar/>
-              <PasteHome />
-            </div>
-            } />
-            <Route path="/paste/:id" element={<div className="flex w-full">
-              <Navbar/>
-              <ViewPaste />
-            </div>
-            } />
-            <Route path="/todo" element={<div className="flex w-full">
-              <Navbar/>
-              <TodoHome />
-            </div>
-            }  />
-            <Route path="/scribble" element={<div className="flex w-full">
-              <Navbar/>
-              <ScribbleHome />
-            </div>
-            }  />
-          </Routes>
-      </BrowserRouter>
-    </NavbarProvider>
+      <NavbarProvider>  
+        <BrowserRouter>   
+            <Routes>
+              <Route path="/" element={<Choice/>}/>
+              <Route path="/paste" element={<div className="flex w-full">
+                <Navbar/>
+                <PasteHome />
+              </div>
+              } />
+              <Route path="/paste/:id" element={<div className="flex w-full">
+                <Navbar/>
+                <ViewPaste />
+              </div>
+              } />
+              <Route path="/todo" element={<div className="flex w-full">
+                <Navbar/>
+                <TodoHome />
+              </div>
+              }  />
+              <Route path="/scribble" element={<div className="flex w-full">
+                <Navbar/>
+                <ScribbleHome />
+              </div>
+              }  />
+            </Routes>
+        </BrowserRouter>
+      </NavbarProvider>
+      <Analytics/>
     </>
   );
 }
